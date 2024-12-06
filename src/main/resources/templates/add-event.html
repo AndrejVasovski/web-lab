@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Form</title>
+</head>
+<body>
+<form th:action="${event==null} ?'/events/add' : '/events/edit/'+${event.getId()}" method="POST">
+    <label for="name">Event Name:</label>
+    <input th:value="${event!=null ? event.getName() : ' '} " type="text" id="name" name="name" required><br><br>
+
+    <label for="description">Event Description:</label>
+    <textarea th:text="${event!=null ? event.getDescription() : ' '}" id="description" name="description" required></textarea><br><br>
+
+    <label for="popularityScore">Rating:</label>
+    <input th:value="${event!=null ? event.getPopularityScore() : ' '} " type="number" id="popularityScore" name="popularityScore" min="1" max="10" required><br><br>
+
+    <label for="locationId">Location:</label>
+    <select id="locationId" name="locationId" required>
+        <div th:each="location : ${locations}">
+
+        <option th:selected="${event!=null && event.getLocation().getId()==location.getId()}" th:value="${location.getId()}" th:text="${location.getName()}">Location</option>
+
+        </div>
+    </select><br><br>
+
+    <input type="submit" value="Submit">
+</form>
+</body>
+</html>
